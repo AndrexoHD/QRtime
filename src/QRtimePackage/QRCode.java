@@ -1,5 +1,6 @@
 package QRtimePackage;
 
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
@@ -48,7 +49,7 @@ public class QRCode extends JPanel {
     }
 
     @Override
-    public void paintComponent(java.awt.Graphics g) {
+    public void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (image != null) {
             g.drawImage(image, 0, 0, this);
