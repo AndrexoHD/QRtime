@@ -42,7 +42,7 @@ public class QRCode extends JPanel {
             @Override
             public void run() {
                 TimeObject time = TimeObject.getTimeObject();
-                String data = time.toString();
+                String data = "Current Time: " + time.toString();
                 loadImage(size, data);
             }
         },0, 1000);

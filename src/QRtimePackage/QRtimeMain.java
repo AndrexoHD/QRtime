@@ -13,6 +13,6 @@ public class QRtimeMain {
         // Content of Window:
         QRCode qrCode = new QRCode(size);
         frame.add(qrCode);
-        frame.setSize(new Dimension(sizeInt+20, sizeInt+40));
+        frame.setSize(new Dimension(sizeInt+22, sizeInt+56));
     }
 }
