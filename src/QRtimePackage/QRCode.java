@@ -1,7 +1,9 @@
 package QRtimePackage;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.awt.image.Raster;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Timer;
@@ -14,15 +16,26 @@ import javax.swing.JPanel;
 public class QRCode extends JPanel {
 
     private BufferedImage image;
-    protected String size;
+    private String size;
+    private QRtimeFrame frame;
 
-    public QRCode(String size) {
-        this.size = size;
+    public QRCode(QRtimeFrame frame) {
+        this.frame = frame;
         startTimer();
     }
 
-    private void loadImage(String size, String data) {
+    private void loadImage(String data) {
         try {
+            int frameWidth = frame.getWidth();
+            int frameHeight = frame.getHeight();
+            if (frameWidth > 1000 || frameHeight > 1000) {
+                frameWidth = 1000;
+                frameHeight = 1000;
+            }
+            int newSize = Math.min(frameWidth, frameHeight);
+            frame.setSize(newSize, newSize+23);
+            int minSize = frameWidth < frameHeight ? frameWidth : frameHeight; // Could've used Math.min() but i'm just based.
+            size = (int)(minSize-10)+"x"+(int)(minSize-10);
             String urlString = "https://api.qrserver.com/v1/create-qr-code/?size="+size+"&data="+data;
             URL url = new URL(urlString);
             BufferedImage newImage = ImageIO.read(url);
@@ -30,6 +43,7 @@ public class QRCode extends JPanel {
                 image.flush();
             }
             image = newImage;
+
             repaint();
         } catch (IOException e) {
             e.printStackTrace();
@@ -43,7 +57,7 @@ public class QRCode extends JPanel {
             public void run() {
                 TimeObject time = TimeObject.getTimeObject();
                 String data = "Current Time: " + time.toString();
-                loadImage(size, data);
+                loadImage(data);
             }
         },0, 1000);
     }
